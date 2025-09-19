@@ -10,7 +10,7 @@ export default function App() {
   const renderPage = () => {
     switch (currentPage) {
       case 'home':
-        return <HomePage />;
+        return <HomePage onPageChange={setCurrentPage} />;
       case 'blog':
         return <BlogPage />;
       case 'projects':
