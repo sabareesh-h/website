@@ -4,17 +4,17 @@ import { Button } from './ui/button';
 import { Card, CardContent } from './ui/card';
 import { Badge } from './ui/badge';
 
-export function HomePage() {
+export function HomePage({ onPageChange }: { onPageChange: (page: string) => void }) {
   const skills = [
     'React', 'TypeScript', 'Next.js', 'JavaScript', 'Python', 'UI/UX Design',
     'Figma', 'Tailwind CSS', 'Node.js', 'MongoDB', 'Creative Writing', 'Photography'
   ];
 
   const achievements = [
-    { number: '50+', label: 'Projects Created' },
-    { number: '3+', label: 'Years Learning' },
+    { number: '10+', label: 'Projects Created' },
+    { number: '4+', label: 'Years Learning' },
     { number: '12+', label: 'Technologies' },
-    { number: '∞', label: 'Curiosity Level' }
+    { number: '1', label: 'Curiosity Level' }
   ];
 
   const passions = [
@@ -36,7 +36,7 @@ export function HomePage() {
   ];
 
   return (
-    <div className="min-h-screen pt-16">
+    <div className="min-h-screen pt-8">
       {/* Hero Section */}
       <section className="relative py-20 lg:py-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -48,7 +48,7 @@ export function HomePage() {
               </div>
               
               <h1 className="text-4xl lg:text-6xl mb-6 leading-tight">
-                Hi
+                Hello
                 <br />
                 <span className="text-muted-foreground">-- I'm Sabareesh, My journey</span>
               </h1>
@@ -60,25 +60,31 @@ export function HomePage() {
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button size="lg" className="group bg-primary hover:bg-primary/90">
-                  Explore My Work
+                <Button size="lg" className="group bg-primary hover:bg-primary/90" onClick={() => onPageChange('projects')}>
+                  Explore My Projects
                   <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                 </Button>
-                <Button variant="outline" size="lg" className="border-primary/20 hover:bg-primary/5">
-                  Read My Story
+                <Button variant="outline" size="lg" className="border-primary/20 hover:bg-primary/5" onClick={() => onPageChange('blog')}>
+                  Read My Blog
                 </Button>
               </div>
               
               <div className="flex items-center gap-4 mt-8">
-                <Button variant="ghost" size="sm" className="hover:bg-primary/10">
-                  <Github className="h-5 w-5" />
-                </Button>
-                <Button variant="ghost" size="sm" className="hover:bg-primary/10">
-                  <Linkedin className="h-5 w-5" />
-                </Button>
-                <Button variant="ghost" size="sm" className="hover:bg-primary/10">
-                  <Mail className="h-5 w-5" />
-                </Button>
+                <a href="https://github.com/sabareesh-h/" target="_blank" rel="noopener noreferrer">
+                  <Button variant="ghost" size="sm" className="hover:bg-primary/10">
+                    <Github className="h-5 w-5" />
+                  </Button>
+                </a>
+                <a href="https://linkedin.com/in/sabareesh-h-352391227" target="_blank" rel="noopener noreferrer">
+                  <Button variant="ghost" size="sm" className="hover:bg-primary/10">
+                    <Linkedin className="h-5 w-5" />
+                  </Button>
+                </a>
+                <a href="mailto:sabareeshh124@gmail.com">
+                  <Button variant="ghost" size="sm" className="hover:bg-primary/10">
+                    <Mail className="h-5 w-5" />
+                  </Button>
+                </a>
               </div>
             </div>
             
