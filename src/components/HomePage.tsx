@@ -3,11 +3,12 @@ import { ArrowRight, Code, Palette, BookOpen, Github, Linkedin, Mail, ExternalLi
 import { Button } from './ui/button';
 import { Card, CardContent } from './ui/card';
 import { Badge } from './ui/badge';
+import myImage from '../my_image.jpeg';
 
 export function HomePage({ onPageChange }: { onPageChange: (page: string) => void }) {
   const skills = [
     'React', 'TypeScript', 'Next.js', 'JavaScript', 'Python', 'UI/UX Design',
-    'Figma', 'Tailwind CSS', 'Node.js', 'MongoDB', 'Creative Writing', 'Photography'
+    'Figma', 'Tailwind CSS', 'Node.js', 'Blender', 'CAD modelling', 'Solidworks'
   ];
 
   const achievements = [
@@ -92,11 +93,11 @@ export function HomePage({ onPageChange }: { onPageChange: (page: string) => voi
               <div className="aspect-square max-w-lg mx-auto relative">
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-primary/5 rounded-2xl transform rotate-3"></div>
                 <img
-                  src="https://images.unsplash.com/photo-1576558656222-ba66febe3dec?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBwb3J0cmFpdCUyMGhlYWRzaG90fGVufDF8fHx8MTc1Nzk0NjU0N3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                  src={myImage}
                   alt="Sabareesh"
                   className="w-full h-full object-cover rounded-2xl relative z-10 border-2 border-primary/10"
                 />
-                <div className="absolute -bottom-4 -right-4 bg-primary text-primary-foreground p-4 rounded-full z-20 shadow-lg">
+                <div className="absolute -bottom-4 -right-4 bg-primary text-primary-foreground p-4 rounded-full z-20 shadow-lg" onClick={() => onPageChange('projects')}>
                   <Scroll className="h-6 w-6" />
                 </div>
               </div>
@@ -156,7 +157,7 @@ export function HomePage({ onPageChange }: { onPageChange: (page: string) => voi
                 ))}
               </div>
               
-              <Button variant="outline" className="border-primary/20 hover:bg-primary/5">
+              <Button variant="outline" className="border-primary/20 hover:bg-primary/5" onClick={() => onPageChange('blog')}>
                 Read My Blog
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
@@ -221,7 +222,7 @@ export function HomePage({ onPageChange }: { onPageChange: (page: string) => voi
             of discovery."
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="group bg-primary hover:bg-primary/90">
+            <Button size="lg" className="group bg-primary hover:bg-primary/90" onClick={() => onPageChange('projects')}>
               View My Projects
               <ExternalLink className="ml-2 h-4 w-4 group-hover:scale-110 transition-transform" />
             </Button>
