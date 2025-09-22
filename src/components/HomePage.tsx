@@ -1,11 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { ArrowRight, Code, Palette, BookOpen, Github, Linkedin, Mail, ExternalLink, Scroll, Compass } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card, CardContent } from './ui/card';
 import { Badge } from './ui/badge';
 import myImage from '../my_image.jpeg';
 
-export function HomePage({ onPageChange }: { onPageChange: (page: string) => void }) {
+export function HomePage() {
   const skills = [
     'React', 'TypeScript', 'Next.js', 'JavaScript', 'Python', 'UI/UX Design',
     'Figma', 'Tailwind CSS', 'Node.js', 'Blender', 'CAD modelling', 'Solidworks'
@@ -61,13 +62,17 @@ export function HomePage({ onPageChange }: { onPageChange: (page: string) => voi
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button size="lg" className="group bg-primary hover:bg-primary/90" onClick={() => onPageChange('projects')}>
-                  Explore My Projects
-                  <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                </Button>
-                <Button variant="outline" size="lg" className="border-primary/20 hover:bg-primary/5" onClick={() => onPageChange('blog')}>
-                  Read My Blog
-                </Button>
+                <Link to="/projects">
+                  <Button size="lg" className="group bg-primary hover:bg-primary/90">
+                    Explore My Projects
+                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </Link>
+                <Link to="/blog">
+                  <Button variant="outline" size="lg" className="border-primary/20 hover:bg-primary/5">
+                    Read My Blog
+                  </Button>
+                </Link>
               </div>
               
               <div className="flex items-center gap-4 mt-8">
@@ -97,9 +102,11 @@ export function HomePage({ onPageChange }: { onPageChange: (page: string) => voi
                   alt="Sabareesh"
                   className="w-full h-full object-cover rounded-2xl relative z-10 border-2 border-primary/10"
                 />
-                <div className="absolute -bottom-4 -right-4 bg-primary text-primary-foreground p-4 rounded-full z-20 shadow-lg" onClick={() => onPageChange('projects')}>
-                  <Scroll className="h-6 w-6" />
-                </div>
+                <Link to="/projects">
+                  <div className="absolute -bottom-4 -right-4 bg-primary text-primary-foreground p-4 rounded-full z-20 shadow-lg cursor-pointer">
+                    <Scroll className="h-6 w-6" />
+                  </div>
+                </Link>
               </div>
             </div>
           </div>
@@ -157,10 +164,12 @@ export function HomePage({ onPageChange }: { onPageChange: (page: string) => voi
                 ))}
               </div>
               
-              <Button variant="outline" className="border-primary/20 hover:bg-primary/5" onClick={() => onPageChange('blog')}>
-                Read My Blog
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
+              <Link to="/blog">
+                <Button variant="outline" className="border-primary/20 hover:bg-primary/5">
+                  Read My Blog
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
             </div>
             
             <div className="grid grid-cols-2 gap-4">
@@ -222,10 +231,12 @@ export function HomePage({ onPageChange }: { onPageChange: (page: string) => voi
             of discovery."
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="group bg-primary hover:bg-primary/90" onClick={() => onPageChange('projects')}>
-              View My Projects
-              <ExternalLink className="ml-2 h-4 w-4 group-hover:scale-110 transition-transform" />
-            </Button>
+            <Link to="/projects">
+              <Button size="lg" className="group bg-primary hover:bg-primary/90">
+                View My Projects
+                <ExternalLink className="ml-2 h-4 w-4 group-hover:scale-110 transition-transform" />
+              </Button>
+            </Link>
             <Button variant="outline" size="lg" className="border-primary/20 hover:bg-primary/5">
               Get In Touch
             </Button>
