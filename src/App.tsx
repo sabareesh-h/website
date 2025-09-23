@@ -11,7 +11,7 @@ export default function App() {
   const [isNavVisible, setIsNavVisible] = useState(true);
 
   return (
-    <BrowserRouter>
+        <BrowserRouter basename="/website/">
       <div className="min-h-screen bg-background">
         {isNavVisible && <Navigation />}
         <main>
