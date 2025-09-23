@@ -152,12 +152,7 @@ export function BlogPage() {
           </div>
         </section>
 
-        {/* Load More */}
-        <section className="text-center mt-12">
-          <Button variant="outline" size="lg" className="border-primary/20 hover:bg-primary/5">
-            Load More Stories
-          </Button>
-        </section>
+       
 
         {/* Newsletter Signup */}
         <section className="mt-20 p-8 bg-gradient-to-r from-primary/5 to-primary/10 rounded-2xl text-center border border-primary/20">
