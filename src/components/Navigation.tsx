@@ -1,20 +1,18 @@
 import { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { Button } from './ui/button';
 import logo from '../assets/Logo.png';
 
-interface NavigationProps {
-  currentPage: string;
-  onPageChange: (page: string) => void;
-}
-
-export function Navigation({ currentPage, onPageChange }: NavigationProps) {
+export function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
   const navItems = [
-    { name: 'Home', id: 'home' },
-    { name: 'Projects', id: 'projects' },
-    { name: 'Blog', id: 'blog' },
+    { name: 'Home', path: '/' },
+    { name: 'Projects', path: '/projects' },
+    { name: 'Blog', path: '/blog' },
+    { name: 'Drawings', path: '/drawings' },
   ];
 
   return (
@@ -23,29 +21,30 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <img 
-              src={logo} 
-              alt="Sabareesh Portfolio" 
-              className="h-12 w-auto cursor-pointer"
-              onClick={() => onPageChange('home')}
-            />
+            <Link to="/">
+              <img 
+                src={logo} 
+                alt="Sabareesh Portfolio" 
+                className="h-12 w-auto cursor-pointer"
+              />
+            </Link>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-8">
               {navItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => onPageChange(item.id)}
+                <Link
+                  key={item.name}
+                  to={item.path}
                   className={`px-3 py-2 transition-colors ${
-                    currentPage === item.id
+                    location.pathname === item.path
                       ? 'text-primary border-b-2 border-primary'
                       : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   {item.name}
-                </button>
+                </Link>
               ))}
             </div>
           </div>
@@ -73,20 +72,18 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-background border-b">
             {navItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => {
-                  onPageChange(item.id);
-                  setIsMobileMenuOpen(false);
-                }}
+              <Link
+                key={item.name}
+                to={item.path}
+                onClick={() => setIsMobileMenuOpen(false)}
                 className={`block px-3 py-2 w-full text-left transition-colors ${
-                  currentPage === item.id
+                  location.pathname === item.path
                     ? 'text-primary bg-accent'
                     : 'text-muted-foreground hover:text-foreground hover:bg-accent'
                 }`}
               >
                 {item.name}
-              </button>
+              </Link>
             ))}
             <div className="px-3 pt-2">
               <Button className="w-full">Contact</Button>

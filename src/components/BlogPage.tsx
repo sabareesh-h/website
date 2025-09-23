@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Clock, ArrowRight, Calendar, BookOpen, Lightbulb, Coffee, Feather } from './icons';
 import { Button } from './ui/button';
 import { Card, CardContent } from './ui/card';
@@ -6,24 +7,40 @@ import { Badge } from './ui/badge';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import fm from 'front-matter';
 
-export function BlogPage({ onPageChange, onPostSelect }: { onPageChange: (page: string) => void, onPostSelect: (post: any) => void }) {
+export function BlogPage() {
   const [posts, setPosts] = useState<any[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPosts = async () => {
       const postModules = import.meta.glob('../posts/*.md', { as: 'raw' });
       const postPromises = Object.values(postModules).map(async (postContentPromise) => {
         const postContent = await postContentPromise();
-        return fm(postContent);
+        const post = fm(postContent);
+        const slug = post.attributes.title.toLowerCase().replace(/\s+/g, '-');
+        return { ...post, slug };
       });
       const loadedPosts = await Promise.all(postPromises);
+      loadedPosts.sort((a, b) => new Date(b.attributes.date).getTime() - new Date(a.attributes.date).getTime());
       setPosts(loadedPosts);
     };
 
     fetchPosts();
   }, []);
 
+  const handlePostSelect = (post: any) => {
+    navigate(`/post/${post.slug}`, { state: { post } });
+  };
+
   const categories = ["All", "Personal", "Learning", "Design", "Philosophy", "Journey", "Life"];
+
+  const filteredPosts = selectedCategory === 'All' 
+    ? posts 
+    : posts.filter(post => post.attributes.category === selectedCategory);
+
+  const featuredPost = filteredPosts[0];
+  const recentPosts = filteredPosts.slice(1);
 
   return (
     <div className="min-h-screen pt-16">
@@ -49,10 +66,11 @@ export function BlogPage({ onPageChange, onPostSelect }: { onPageChange: (page: 
             {categories.map((category) => (
               <Button
                 key={category}
-                variant={category === "All" ? "default" : "outline"}
+                variant={selectedCategory === category ? "default" : "outline"}
                 size="sm"
+                onClick={() => setSelectedCategory(category)}
                 className={`rounded-full ${
-                  category === "All"
+                  selectedCategory === category
                     ? "bg-primary hover:bg-primary/90"
                     : "border-primary/20 hover:bg-primary/5"
                 }`}
@@ -63,6 +81,32 @@ export function BlogPage({ onPageChange, onPostSelect }: { onPageChange: (page: 
           </div>
         </section>
 
+        {/* Featured Post */}
+        {featuredPost && (
+          <section className="mb-16" onClick={() => handlePostSelect(featuredPost)}>
+            <Card className="overflow-hidden grid lg:grid-cols-2 items-center border-primary/10 cursor-pointer group">
+              <div className="aspect-[4/3] overflow-hidden">
+                <ImageWithFallback
+                  src={featuredPost.attributes.image}
+                  alt={featuredPost.attributes.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+              <CardContent className="p-8 lg:p-12">
+                <Badge variant="secondary" className="mb-4 bg-primary/10 text-primary border-primary/20">Featured</Badge>
+                <h2 className="text-3xl lg:text-4xl mb-4 leading-tight group-hover:text-primary transition-colors">{featuredPost.attributes.title}</h2>
+                <p className="text-muted-foreground mb-6 line-clamp-3 leading-relaxed">
+                  {featuredPost.attributes.excerpt}
+                </p>
+                <div className="flex items-center text-primary">
+                  Read More
+                  <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </CardContent>
+            </Card>
+          </section>
+        )}
+
         {/* Blog Posts Grid */}
         <section>
           <div className="flex items-center gap-2 mb-8">
@@ -70,8 +114,8 @@ export function BlogPage({ onPageChange, onPostSelect }: { onPageChange: (page: 
             <h2 className="text-2xl">Recent Musings</h2>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {posts.map((post, index) => (
-              <Card key={index} onClick={() => onPostSelect(post)} className="overflow-hidden group cursor-pointer hover:shadow-lg transition-all duration-300 border border-primary/10 hover:border-primary/20">
+            {recentPosts.map((post, index) => (
+              <Card key={index} onClick={() => handlePostSelect(post)} className="overflow-hidden group cursor-pointer hover:shadow-lg transition-all duration-300 border border-primary/10 hover:border-primary/20">
                 <div className="aspect-[4/3]">
                   <ImageWithFallback
                     src={post.attributes.image}

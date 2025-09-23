@@ -14,6 +14,7 @@
 
 # misc
 .DS_Store
+Thumbs.db
 *.pem
 
 # debug
@@ -21,10 +22,16 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 *.log
+*.tmp
+*.bak
+*.swp
 
 # local env files
 .env.local
 .env.*.local
+
+# drawings
+src/drawings/*.md
 
 # copy files
 * - Copy.md
