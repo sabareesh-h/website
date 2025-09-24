@@ -1,3 +1,11 @@
+---
+title: 'A day'
+date: '2025-09-23'
+excerpt: 'A short story about a day.'
+image: 'https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkYXl8ZW58MXx8fHwxNzU4NDY2NDAwfDA&ixlib=rb-4.1.0&q=80&w=1080'
+category: 'Life'
+readTime: '1 min read'
+---
 Lot of people believe that simply accepting the fiction created by some religion that the way of life should be in that way. Then only you will have pathway to heaven after death. Hindu mythology often portraits death as a way of jumping to next chapter. If you do good things in previous life. You will have a peaceful and luxurious life in this life. Or else you will struggle a lot. Do good things to others, so that your next life will be perfect. Even if we accept that part.
 
 We can't possibly prove it. You can't tell if you born a cat or a cow or a human in your previous life. Every person has a cycle of life. If we disrupts that cycle. Larger discomfort will be released. In Mahabharata, Arjuna asks Krishna that he can't kill his family(which was a opposite group). Krishna said everything is cycle of life. If you set aside your purpose for the sake of your family. You will disrupts the cycle of life. It will create greater amount of consequences. 
