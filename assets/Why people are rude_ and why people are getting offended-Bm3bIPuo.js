@@ -1,6 +1,4 @@
-const e=`---
-
----
+const e=`
 ---
 title: 'Why people are rude, and why people are getting offended'
 date: '25-09-2025'
