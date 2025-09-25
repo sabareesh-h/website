@@ -1,12 +1,10 @@
-
 ---
 title: 'Why people are rude, and why people are getting offended'
-date: '25-09-2025'
+date: '2025-09-25'
 excerpt: 'Emotions are what makes people feel alive'
 image: 'https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/f344314c-7c01-5ec9-a170-3ab59c677bda/cf016a44-a8f1-5b78-ad46-7e162439950d.jpg'
-category: 'Philosophy'
-readtime: '5 min read'
-
+category: 'Personal'
+readTime: '5 min read'
 ---
 
 I have been thinking a lot about why people are like the way they are. 
