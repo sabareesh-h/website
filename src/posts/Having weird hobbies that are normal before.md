@@ -1,7 +1,4 @@
 ---
-
----
----
 title: "Having weird habits that are normal before"
 date: "2025-10-03"
 excerpt: "This is my second blog posts"
