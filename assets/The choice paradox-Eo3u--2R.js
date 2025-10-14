@@ -1,11 +1,11 @@
 const e=`
 ---
-title: "Why we can't choose something, when we get overwhelmed with choices"
-date: "2025-10-14"
-excerpt: "This is my blog about paradox of choices"
-image: "https://upload.wikimedia.org/wikipedia/commons/c/cd/Ambrogio_Lorenzetti_-_Allegory_of_Good_Government_-_Google_Art_Project.jpg"
-category: "Learning"
-readtime: "3 min read"
+title: 'Why we can't choose something, when we get overwhelmed with choices'
+date: '2025-10-14'
+excerpt: 'This is my blog about paradox of choices'
+image: 'https://upload.wikimedia.org/wikipedia/commons/c/cd/Ambrogio_Lorenzetti_-_Allegory_of_Good_Government_-_Google_Art_Project.jpg'
+category: 'Learning'
+readtime: '3 min read'
 
 ---
 
