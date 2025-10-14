@@ -1,4 +1,5 @@
-const e=`---
+const e=`
+---
 title: 'Why we can't choose something, when we get overwhelmed with choices'
 date: '2025-10-14'
 excerpt: 'This is my blog about paradox of choices'
