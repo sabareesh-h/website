@@ -1,11 +1,9 @@
-const e=`---
-
----
+const e=`
 ---
 title: "Why we can't choose something, when we get overwhelmed with choices"
 date: "14-10-2025"
 excerpt: "This is my blog about paradox of choices"
-image:
+image: "https://upload.wikimedia.org/wikipedia/commons/c/cd/Ambrogio_Lorenzetti_-_Allegory_of_Good_Government_-_Google_Art_Project.jpg"
 category: "Learning"
 readtime: "3 min read"
 
@@ -29,4 +27,5 @@ How i researched it is, by mostly watching videos and chart comparison. Now, I a
 
 So if i want to buy a mutual fund. I will feel less worried about choices. Because, i'll know how to do research. 
 
-Everywhere we go, there will be enough option for you to choose. But when you know what is best. you can simply get that with satisfaction.`;export{e as default};
+Everywhere we go, there will be enough option for you to choose. But when you know what is best. you can simply get that with satisfaction.
+`;export{e as default};
