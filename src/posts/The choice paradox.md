@@ -4,8 +4,8 @@ title: 'Why we can't choose something, when we get overwhelmed with choices'
 date: '2025-10-14'
 excerpt: 'This is my blog about paradox of choices'
 image: 'https://upload.wikimedia.org/wikipedia/commons/c/cd/Ambrogio_Lorenzetti_-_Allegory_of_Good_Government_-_Google_Art_Project.jpg'
-category: 'Learning'
-readtime: '3 min read'
+category: 'Life'
+readTime: '1 min read'
 ---
 When you want to buy or get something from the place. If you have lower choice, you can easily identify which one do you need. But if you get lot of options with it, you will feel overwhelmed. Why that happens.
 
