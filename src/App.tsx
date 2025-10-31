@@ -6,6 +6,7 @@ import { BlogPage } from './components/BlogPage';
 import { ProjectsPage } from './components/ProjectsPage';
 import { BlogPostPage } from './components/BlogPostPage';
 import { DrawingsPage } from './components/DrawingsPage';
+import { PostGeneratorPage } from './components/PostGeneratorPage';
 
 export default function App() {
   const [isNavVisible, setIsNavVisible] = useState(true);
@@ -22,6 +23,7 @@ export default function App() {
             <Route path="/projects" element={<ProjectsPage />} />
             <Route path="/drawings" element={<DrawingsPage setIsNavVisible={setIsNavVisible} />} />
             <Route path="/drawing/:slug" element={<DrawingsPage setIsNavVisible={setIsNavVisible} />} />
+            <Route path="/create-post" element={<PostGeneratorPage />} />
           </Routes>
         </main>
       </div>
