@@ -68,6 +68,6 @@
       },
       "scripts": {
             "dev": "vite",
-            "build": "vite build && copy build\\index.html build\\404.html"
+            "build": "vite build"
       }
 }
