@@ -1,0 +1,33 @@
+{
+    "experiences": [
+        {
+            "title": "GET at Delphitvs",
+            "year": "July'25 to Present",
+            "image": "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?q=80&w=2070&auto=format&fit=crop"
+        },
+        {
+            "title": "GET intern at Delphitvs",
+            "year": "Feb'25 to Jun'25",
+            "image": "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?q=80&w=2070&auto=format&fit=crop"
+        },
+        {
+            "title": "Mechanical engineering at Bannari amman institute of technology",
+            "year": "2021- 2025",
+            "image": "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?q=80&w=2070&auto=format&fit=crop"
+        }
+    ],
+    "playlists": [
+        {
+            "title": "Alex Playlist",
+            "subtitle": "Play on Spotify",
+            "image": "https://images.unsplash.com/photo-1493225255756-d9584f8606e9?q=80&w=2070&auto=format&fit=crop"
+        }
+    ],
+    "reading": [
+        {
+            "title": "Dieter Rams the Complete Works",
+            "author": "Klaus Klemp",
+            "image": "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=800&auto=format&fit=crop"
+        }
+    ]
+}

@@ -1,8 +1,9 @@
-import { ExternalLink, Github, ArrowRight, Compass, Star, Heart, Lightbulb } from 'lucide-react';
+import { ExternalLink, Github, ArrowRight, Compass, Star, Heart, Lightbulb, Layers, Code2 } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card, CardContent } from './ui/card';
 import { Badge } from './ui/badge';
 import { ImageWithFallback } from './figma/ImageWithFallback';
+import { motion } from 'framer-motion';
 
 export function ProjectsPage() {
   const projects = [
@@ -65,7 +66,7 @@ export function ProjectsPage() {
       title: "Local Lens",
       description: "A community photo-sharing app that connects neighbors through visual storytelling. Discover hidden gems in your neighborhood through others' eyes.",
       story: "Inspired by wanting to see my city through fresh perspectives.",
-      image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx8fDE3NTc4NzUxMjl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHx8fDE3NTc4NzUxMjl8MA&ixlib=rb-4.1.0&q=80&w=1080",
       category: "Social",
       technologies: ["React", "Firebase", "Google Maps API", "PWA"],
       year: "2023",
@@ -84,49 +85,67 @@ export function ProjectsPage() {
   ];
 
   return (
-    <div className="min-h-screen pt-16">
+    <div className="min-h-screen pt-24 pb-20">
       {/* Header */}
-      <section className="py-16 bg-gradient-to-r from-primary/5 to-primary/10">
+      <section className="relative py-20 overflow-hidden">
+        <div className="absolute top-0 right-1/4 w-[800px] h-[400px] bg-primary/10 rounded-[100%] blur-[100px] -z-10" />
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <Compass className="w-6 h-6 text-primary" />
-            <span className="text-sm text-muted-foreground">Digital Explorations</span>
-          </div>
-          <h1 className="text-4xl lg:text-5xl mb-4">My Projects</h1>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto leading-relaxed">
-            Each project represents a chapter in my learning journey - experiments in creativity, 
-            problem-solving, and the endless pursuit of building something meaningful.
-          </p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="flex items-center justify-center gap-2 mb-6">
+              <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium border border-primary/20 flex items-center gap-2">
+                <Code2 className="w-3 h-3" />
+                Digital Explorations
+              </span>
+            </div>
+            <h1 className="text-5xl lg:text-7xl font-bold mb-6 tracking-tight">My Projects</h1>
+            <p className="text-muted-foreground text-xl max-w-2xl mx-auto leading-relaxed">
+              Each project represents a chapter in my learning journey - experiments in creativity,
+              problem-solving, and the endless pursuit of building something meaningful.
+            </p>
+          </motion.div>
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Journey Stats */}
-        <section className="mb-16">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+        <section className="mb-20">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
             {journeyStats.map((stat, index) => (
-              <div key={index} className="text-center p-6 rounded-lg bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20">
-                <stat.icon className="w-8 h-8 mx-auto mb-3 text-primary" />
-                <div className="text-3xl mb-2 text-primary font-serif">{stat.number}</div>
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="p-6 rounded-2xl bg-card/50 backdrop-blur-sm border border-white/10 hover:border-primary/30 transition-all text-center group"
+              >
+                <div className="w-12 h-12 mx-auto mb-4 rounded-xl bg-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <stat.icon className="w-6 h-6 text-primary" />
+                </div>
+                <div className="text-3xl font-bold mb-1 text-foreground">{stat.number}</div>
                 <div className="text-sm text-muted-foreground">{stat.label}</div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </section>
 
         {/* Filters */}
         <section className="mb-12">
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 justify-center">
             {categories.map((category) => (
               <Button
                 key={category}
                 variant={category === "All" ? "default" : "outline"}
                 size="sm"
-                className={`rounded-full ${
-                  category === "All" 
-                    ? "bg-primary hover:bg-primary/90" 
-                    : "border-primary/20 hover:bg-primary/5"
-                }`}
+                className={`rounded-full transition-all ${category === "All"
+                    ? "bg-primary hover:bg-primary/90"
+                    : "border-white/10 hover:bg-white/5"
+                  }`}
               >
                 {category}
               </Button>
@@ -135,108 +154,116 @@ export function ProjectsPage() {
         </section>
 
         {/* Projects Grid */}
-        <section className="mb-16">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <section className="mb-20">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {projects.map((project, index) => (
-              <Card key={index} className="overflow-hidden group cursor-pointer hover:shadow-lg transition-all duration-300 border border-primary/20 hover:border-primary/30">
-                <div className="aspect-[4/3] relative overflow-hidden">
-                  <ImageWithFallback
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute top-4 left-4 flex gap-2">
-                    <Badge variant="secondary" className="text-xs bg-primary/10 text-primary border-primary/20">
-                      {project.category}
-                    </Badge>
-                    <Badge 
-                      variant="outline" 
-                      className="text-xs border-primary/30 bg-background/80"
-                    >
-                      {project.status}
-                    </Badge>
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="group"
+              >
+                <div className="bg-card/50 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 h-full flex flex-col">
+                  <div className="aspect-[4/3] relative overflow-hidden">
+                    <ImageWithFallback
+                      src={project.image}
+                      alt={project.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
+                      <Button size="icon" variant="secondary" className="rounded-full bg-white/10 hover:bg-white/20 text-white border-none">
+                        <ExternalLink className="h-5 w-5" />
+                      </Button>
+                      <Button size="icon" variant="secondary" className="rounded-full bg-white/10 hover:bg-white/20 text-white border-none">
+                        <Github className="h-5 w-5" />
+                      </Button>
+                    </div>
+                    <div className="absolute top-4 left-4 flex gap-2">
+                      <Badge variant="secondary" className="bg-black/50 backdrop-blur-md text-white border-white/20">
+                        {project.category}
+                      </Badge>
+                    </div>
                   </div>
-                  <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <div className="flex gap-2">
-                      <Button size="sm" variant="secondary" className="h-8 w-8 p-0 bg-background/80 hover:bg-background">
-                        <ExternalLink className="h-4 w-4" />
-                      </Button>
-                      <Button size="sm" variant="secondary" className="h-8 w-8 p-0 bg-background/80 hover:bg-background">
-                        <Github className="h-4 w-4" />
-                      </Button>
+
+                  <div className="p-6 flex flex-col flex-grow">
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="text-xl font-bold group-hover:text-primary transition-colors">
+                        {project.title}
+                      </h3>
+                      <span className="text-xs font-mono text-muted-foreground bg-white/5 px-2 py-1 rounded">
+                        {project.year}
+                      </span>
+                    </div>
+
+                    <p className="text-sm text-primary/80 mb-4 italic">"{project.story}"</p>
+                    <p className="text-muted-foreground text-sm mb-6 line-clamp-3 leading-relaxed flex-grow">
+                      {project.description}
+                    </p>
+
+                    <div className="space-y-4">
+                      <div className="flex flex-wrap gap-2">
+                        {project.technologies.slice(0, 3).map((tech, i) => (
+                          <Badge key={i} variant="outline" className="text-xs border-white/10 bg-white/5 text-muted-foreground">
+                            {tech}
+                          </Badge>
+                        ))}
+                      </div>
+
+                      <div className="pt-4 border-t border-white/5">
+                        <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2">
+                          <Layers className="w-3 h-3" />
+                          <span>Key Learnings</span>
+                        </div>
+                        <div className="flex flex-wrap gap-1">
+                          {project.lessons.slice(0, 2).map((lesson, lessonIndex) => (
+                            <span key={lessonIndex} className="text-xs text-muted-foreground/80 bg-primary/5 px-2 py-1 rounded">
+                              {lesson}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-                <CardContent className="p-6 bg-gradient-to-b from-card to-primary/5">
-                  <div className="flex items-center justify-between mb-2">
-                    <h3 className="text-lg group-hover:text-primary transition-colors leading-tight">
-                      {project.title}
-                    </h3>
-                    <span className="text-xs text-muted-foreground">{project.year}</span>
-                  </div>
-                  <p className="text-sm text-primary/80 mb-3 italic">"{project.story}"</p>
-                  <p className="text-sm text-muted-foreground mb-4 line-clamp-2 leading-relaxed">
-                    {project.description}
-                  </p>
-                  
-                  <div className="mb-4">
-                    <p className="text-xs text-muted-foreground mb-2">Key Learnings:</p>
-                    <div className="flex flex-wrap gap-1">
-                      {project.lessons.slice(0, 2).map((lesson, lessonIndex) => (
-                        <Badge key={lessonIndex} variant="outline" className="text-xs border-primary/30 text-primary/80">
-                          {lesson}
-                        </Badge>
-                      ))}
-                      {project.lessons.length > 2 && (
-                        <Badge variant="outline" className="text-xs border-primary/30 text-primary/80">
-                          +{project.lessons.length - 2}
-                        </Badge>
-                      )}
-                    </div>
-                  </div>
-                  
-                  <Button variant="ghost" size="sm" className="p-0 h-auto group/btn hover:bg-primary/10">
-                    Explore Project
-                    <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
-                  </Button>
-                </CardContent>
-              </Card>
+              </motion.div>
             ))}
           </div>
         </section>
 
         {/* Featured Story */}
-        <section className="mb-16">
+        <section className="mb-20">
           <div className="flex items-center gap-2 mb-8">
             <Star className="w-5 h-5 text-primary" />
-            <h2 className="text-2xl">Featured Journey</h2>
+            <h2 className="text-2xl font-bold">Featured Journey</h2>
           </div>
-          <Card className="overflow-hidden border border-primary/20">
+          <div className="relative rounded-3xl overflow-hidden border border-white/10 bg-card/50 backdrop-blur-sm">
             <div className="grid lg:grid-cols-2 gap-0">
-              <div className="aspect-[4/3] lg:aspect-auto">
+              <div className="aspect-[4/3] lg:aspect-auto relative overflow-hidden">
                 <ImageWithFallback
                   src="https://images.unsplash.com/photo-1730794545099-14902983739d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHx3ZWIlMjBkZXNpZ24lMjBtb2NrdXB8ZW58MXx8fHwxNTc4ODk2OTYwfDA&ixlib=rb-4.1.0&q=80&w=1080"
                   alt="Featured Project"
                   className="w-full h-full object-cover"
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent lg:hidden" />
               </div>
-              <CardContent className="p-8 lg:p-12 flex flex-col justify-center bg-gradient-to-br from-card to-primary/5">
-                <div className="flex items-center gap-4 mb-4">
+              <div className="p-8 lg:p-12 flex flex-col justify-center">
+                <div className="flex items-center gap-4 mb-6">
                   <Badge className="bg-primary text-primary-foreground">Current Focus</Badge>
-                  <Badge variant="outline" className="border-primary/30">2024</Badge>
+                  <Badge variant="outline" className="border-white/20">2024</Badge>
                 </div>
-                <h3 className="text-2xl lg:text-3xl mb-4">Learning Hub</h3>
-                <p className="text-muted-foreground mb-6 leading-relaxed">
-                  My most ambitious project yet - a comprehensive learning management system that 
-                  adapts to individual learning styles. Born from my own struggles with traditional 
-                  educational approaches, this platform represents everything I've learned about user 
-                  experience, accessibility, and the art of making complex things simple.
+                <h3 className="text-3xl lg:text-4xl font-bold mb-6">Learning Hub</h3>
+                <p className="text-muted-foreground text-lg mb-8 leading-relaxed">
+                  My most ambitious project yet - a comprehensive learning management system that
+                  adapts to individual learning styles. Born from my own struggles with traditional
+                  educational approaches.
                 </p>
-                <div className="mb-6">
-                  <p className="text-sm text-muted-foreground mb-2">Technologies & Learnings:</p>
+                <div className="mb-8">
+                  <p className="text-sm font-medium text-muted-foreground mb-3">Technologies & Learnings:</p>
                   <div className="flex flex-wrap gap-2">
-                    {["Next.js", "AI Integration", "Accessibility", "User Psychology", "Data Science"].map((tech) => (
-                      <Badge key={tech} variant="secondary" className="bg-primary/10 text-primary border-primary/20">{tech}</Badge>
+                    {["Next.js", "AI Integration", "Accessibility", "User Psychology"].map((tech) => (
+                      <Badge key={tech} variant="secondary" className="bg-white/5 text-white border-white/10 hover:bg-white/10">{tech}</Badge>
                     ))}
                   </div>
                 </div>
@@ -245,63 +272,66 @@ export function ProjectsPage() {
                     Follow Progress
                     <Heart className="ml-2 h-4 w-4 group-hover:scale-110 transition-transform" />
                   </Button>
-                  <Button variant="outline" className="border-primary/20 hover:bg-primary/5">
+                  <Button variant="outline" className="border-white/20 hover:bg-white/5">
                     <Github className="mr-2 h-4 w-4" />
                     View Code
                   </Button>
                 </div>
-              </CardContent>
+              </div>
             </div>
-          </Card>
+          </div>
         </section>
 
         {/* Philosophy Section */}
-        <section className="py-16 bg-gradient-to-r from-primary/5 to-primary/10 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 rounded-2xl border border-primary/20">
-          <div className="text-center mb-12">
-            <Lightbulb className="w-8 h-8 mx-auto mb-4 text-primary" />
-            <h2 className="text-3xl mb-4">My Creative Process</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              Every project begins with curiosity and evolves through experimentation, 
+        <section className="py-20 relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/5 to-transparent text-center px-4">
+          <div className="absolute inset-0 bg-grid-white/5 [mask-image:linear-gradient(to_bottom,transparent,black,transparent)]" />
+          <div className="relative z-10">
+            <div className="w-16 h-16 bg-primary/20 rounded-2xl flex items-center justify-center mx-auto mb-6 rotate-3">
+              <Lightbulb className="w-8 h-8 text-primary" />
+            </div>
+            <h2 className="text-3xl font-bold mb-4">My Creative Process</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto leading-relaxed mb-12">
+              Every project begins with curiosity and evolves through experimentation,
               learning, and the joy of discovery.
             </p>
-          </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              {
-                step: "Wonder",
-                description: "Every project starts with a question or a problem that sparks my curiosity"
-              },
-              {
-                step: "Explore",
-                description: "Research, experiment, and prototype to understand the possibilities"
-              },
-              {
-                step: "Create",
-                description: "Build something meaningful, learning and iterating along the way"
-              },
-              {
-                step: "Share",
-                description: "Document the journey and share the lessons learned with others"
-              }
-            ].map((process, index) => (
-              <div key={index} className="text-center p-6 rounded-lg bg-card border border-primary/20">
-                <div className="text-2xl mb-4 text-primary font-serif">{String(index + 1).padStart(2, '0')}</div>
-                <h3 className="text-lg mb-2">{process.step}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{process.description}</p>
-              </div>
-            ))}
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-5xl mx-auto">
+              {[
+                {
+                  step: "Wonder",
+                  description: "Every project starts with a question or a problem that sparks my curiosity"
+                },
+                {
+                  step: "Explore",
+                  description: "Research, experiment, and prototype to understand the possibilities"
+                },
+                {
+                  step: "Create",
+                  description: "Build something meaningful, learning and iterating along the way"
+                },
+                {
+                  step: "Share",
+                  description: "Document the journey and share the lessons learned with others"
+                }
+              ].map((process, index) => (
+                <div key={index} className="relative p-6 rounded-2xl bg-black/20 border border-white/5 hover:border-primary/30 transition-colors">
+                  <div className="text-4xl font-bold text-white/5 absolute top-4 right-4">{String(index + 1).padStart(2, '0')}</div>
+                  <h3 className="text-xl font-bold mb-3 relative z-10">{process.step}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed relative z-10">{process.description}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
         {/* CTA Section */}
-        <section className="text-center mt-20">
-          <h2 className="text-3xl mb-4">Let's Connect</h2>
+        <section className="text-center mt-20 mb-12">
+          <h2 className="text-3xl font-bold mb-4">Let's Connect</h2>
           <p className="text-muted-foreground mb-8 max-w-lg mx-auto leading-relaxed">
-            I'd love to hear your thoughts on these projects or discuss ideas for future collaborations. 
+            I'd love to hear your thoughts on these projects or discuss ideas for future collaborations.
             Every conversation is an opportunity to learn something new.
           </p>
-          <Button size="lg" className="group bg-primary hover:bg-primary/90">
+          <Button size="lg" className="group bg-primary hover:bg-primary/90 h-12 px-8 rounded-full">
             Start a Conversation
             <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
           </Button>
