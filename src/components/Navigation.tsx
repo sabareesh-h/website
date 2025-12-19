@@ -39,6 +39,7 @@ export function Navigation() {
     { name: 'Blog', path: '/blog' },
     { name: 'Drawings', path: '/drawings' },
     { name: 'About', path: '/about' },
+    { name: 'Write', path: '/write' },
   ];
 
   return (

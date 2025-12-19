@@ -118,7 +118,12 @@ ${content}`;
                 message = `Raw Error: ${JSON.stringify(error) || error.toString()}`;
             }
 
-            toast.error(message, { duration: 6000 });
+            const debugEl = document.getElementById('debug-error-log');
+            if (debugEl) {
+                debugEl.classList.remove('hidden');
+                debugEl.innerText = `DEBUG INFO:\nMessage: ${message}\n\nRaw Error: ${JSON.stringify(error, null, 2)}`;
+            }
+            toast.error(message, { duration: 10000 });
         } finally {
             setIsPublishing(false);
         }
@@ -184,6 +189,10 @@ ${content}`;
                         </form>
                     </motion.div>
                 )}
+
+                {/* Visible Error Fallback */}
+                <div id="debug-error-log" className="hidden bg-red-900/20 border border-red-500/50 p-4 rounded-xl text-red-200 text-sm font-mono whitespace-pre-wrap">
+                </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     <div className="lg:col-span-2 space-y-6">
