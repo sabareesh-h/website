@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
-import { ArrowLeft, Calendar, Clock, User, Share2, Bookmark } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock, User, Share2, Bookmark, Check } from 'lucide-react';
+import { toast } from 'sonner';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { ImageWithFallback } from './figma/ImageWithFallback';
@@ -24,6 +25,40 @@ export function BlogPostPage() {
   const { slug } = useParams();
   const [post, setPost] = useState<any>(location.state?.post || null);
   const [loading, setLoading] = useState(!post);
+  const [copied, setCopied] = useState(false);
+
+  const shareUrl = window.location.href;
+  const shareTitle = post?.attributes?.title || "Check out this blog post";
+
+  const handleTwitterShare = () => {
+    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareTitle)}&url=${encodeURIComponent(shareUrl)}`, '_blank');
+  };
+
+  const handleLinkedInShare = () => {
+    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`, '_blank');
+  };
+
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(shareUrl);
+    setCopied(true);
+    toast.success("Link copied to clipboard!");
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleNativeShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: shareTitle,
+          url: shareUrl
+        });
+      } catch (err) {
+        console.log('Error sharing:', err);
+      }
+    } else {
+      handleCopyLink();
+    }
+  };
 
 
 
@@ -139,7 +174,7 @@ export function BlogPostPage() {
                   </div>
                 </div>
                 <div className="flex gap-2">
-                  <Button size="icon" variant="ghost" className="rounded-full hover:bg-white/10">
+                  <Button size="icon" variant="ghost" className="rounded-full hover:bg-white/10" onClick={handleNativeShare}>
                     <Share2 className="w-4 h-4" />
                   </Button>
                   <Button size="icon" variant="ghost" className="rounded-full hover:bg-white/10">
@@ -183,11 +218,21 @@ export function BlogPostPage() {
           <div className="flex justify-between items-center">
             <h3 className="text-xl font-bold">Share this article</h3>
             <div className="flex gap-2">
-              <Button variant="outline" className="rounded-full border-white/10 hover:bg-white/5">
+              <Button variant="outline" className="rounded-full border-white/10 hover:bg-white/5" onClick={handleTwitterShare}>
                 Twitter
               </Button>
-              <Button variant="outline" className="rounded-full border-white/10 hover:bg-white/5">
+              <Button variant="outline" className="rounded-full border-white/10 hover:bg-white/5" onClick={handleLinkedInShare}>
                 LinkedIn
+              </Button>
+              <Button variant="outline" className="rounded-full border-white/10 hover:bg-white/5 gap-2" onClick={handleCopyLink}>
+                {copied ? (
+                  <>
+                    <Check className="w-4 h-4 text-green-500" />
+                    Copied!
+                  </>
+                ) : (
+                  "Copy Link"
+                )}
               </Button>
             </div>
           </div>
