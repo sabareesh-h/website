@@ -132,8 +132,11 @@ ${content}`;
     return (
         <div className="min-h-screen bg-background text-foreground p-8 pt-24">
             <div className="max-w-5xl mx-auto space-y-8">
+                <div className="bg-yellow-500 text-black px-4 py-2 rounded-lg text-center font-bold mb-4">
+                    PUBLISHER VERSION 2.2 IS LIVE
+                </div>
                 <div className="flex justify-between items-center">
-                    <h1 className="text-4xl font-bold tracking-tight">New Story <span className="text-xs font-mono opacity-30">v2.1</span></h1>
+                    <h1 className="text-4xl font-bold tracking-tight">New Story <span className="text-xs font-mono opacity-30">v2.2</span></h1>
                     <div className="flex gap-4">
                         <button
                             onClick={() => setShowSettings(!showSettings)}

@@ -11,7 +11,7 @@ const SECRET_KEY = 'gemini-secret-key';
 const AUTH_KEY = 'post_generator_auth';
 
 // Helper to create a URL-friendly slug
-const createSlug = (title) => {
+const createSlug = (title: string) => {
   return title
     .toLowerCase()
     .replace(/[^a-z0-9\s-]/g, '')
