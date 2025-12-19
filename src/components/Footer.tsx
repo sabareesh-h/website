@@ -25,9 +25,9 @@ export function Footer() {
                     </div>
 
                     {/* Links Column */}
-                    <div>
+                    <div className="lg:col-span-1">
                         <h3 className="text-xl font-serif font-bold mb-6">Links</h3>
-                        <ul className="space-y-4">
+                        <ul className="grid grid-cols-2 gap-x-8 gap-y-4">
                             {[
                                 { name: 'Github', url: 'https://github.com/sabareesh-h/' },
                                 { name: 'Linkedin', url: 'https://www.linkedin.com/in/sabareesh-h-352391227/' },
@@ -35,14 +35,16 @@ export function Footer() {
                                 { name: 'Substack', url: 'https://sabareeshh.substack.com/' },
                                 { name: 'Medium', url: 'https://medium.com/@sabarigirimana123' },
                                 { name: 'Goodreads', url: 'https://www.goodreads.com/sabareesh-h' },
-                                { name: 'Youtube', url: 'https://www.youtube.com/@sabareeshh460' }
+                                { name: 'Youtube', url: 'https://www.youtube.com/@sabareeshh460' },
+                                { name: 'Trakt', url: 'https://app.trakt.tv/profile/sabareesh12' },
+                                { name: 'Stash', url: 'https://stash.games/users/lnfx5al1ufue/games' }
                             ].map((item) => (
                                 <li key={item.name}>
                                     <a
                                         href={item.url}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="text-foreground/80 hover:text-primary transition-colors"
+                                        className="text-foreground/80 hover:text-primary transition-colors whitespace-nowrap"
                                     >
                                         {item.name}
                                     </a>

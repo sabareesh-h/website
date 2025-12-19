@@ -18,16 +18,16 @@
     ],
     "playlists": [
         {
-            "title": "Alex Playlist",
+            "title": "English Melody",
             "subtitle": "Play on Spotify",
-            "image": "https://images.unsplash.com/photo-1493225255756-d9584f8606e9?q=80&w=2070&auto=format&fit=crop"
+            "image": "https://i.pinimg.com/1200x/1a/dc/eb/1adceb898cf66b48b28f59b26c232c3f.jpg"
         }
     ],
     "reading": [
         {
-            "title": "Dieter Rams the Complete Works",
-            "author": "Klaus Klemp",
-            "image": "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=800&auto=format&fit=crop"
+            "title": "Percy Jackson & the sea of Monsters",
+            "author": "Rick Riordan",
+            "image": "https://backstory.london/cdn/shop/products/9780141338255_2e8b638a-67a5-45eb-a69f-43c2a96cf3fd.jpg?v=1705425699"
         }
     ]
 }

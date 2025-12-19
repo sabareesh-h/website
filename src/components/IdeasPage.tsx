@@ -7,6 +7,7 @@ import { Badge } from './ui/badge';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { motion } from 'framer-motion';
 import fm from 'front-matter';
+import { Footer } from './Footer';
 
 export function IdeasPage() {
   const [posts, setPosts] = useState<any[]>([]);
@@ -193,6 +194,7 @@ export function IdeasPage() {
           </div>
         </section>
       </div>
+      <Footer />
     </div>
   );
 }

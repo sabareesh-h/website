@@ -8,7 +8,7 @@ import { Footer } from "./Footer";
 
 export function HomePage() {
   return (
-    <div className="min-h-screen bg-background text-foreground font-sans">
+    <div className="min-h-screen text-foreground font-sans relative">
       <Hero />
       <About />
       <Experience />

@@ -10,13 +10,15 @@ import { IdeasPage } from './components/IdeasPage';
 import { BlogEditor } from './components/editor/BlogEditor';
 import { About } from './components/About';
 import { Toaster } from 'sonner';
+import { MouseFollower } from './components/ui/MouseFollower';
 
 export default function App() {
   const [isNavVisible, setIsNavVisible] = useState(true);
 
   return (
     <BrowserRouter basename="/website/">
-      <div className="min-h-screen bg-background font-sans selection:bg-primary/20">
+      <div className="min-h-screen bg-background font-sans selection:bg-primary/20 relative">
+        <MouseFollower />
         <Toaster position="bottom-right" theme="dark" />
         {isNavVisible && <Navigation />}
         <main>

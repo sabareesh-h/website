@@ -4,6 +4,7 @@ import { Card, CardContent } from './ui/card';
 import { Badge } from './ui/badge';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { motion } from 'framer-motion';
+import { Footer } from './Footer';
 
 export function ProjectsPage() {
   const projects = [
@@ -143,8 +144,8 @@ export function ProjectsPage() {
                 variant={category === "All" ? "default" : "outline"}
                 size="sm"
                 className={`rounded-full transition-all ${category === "All"
-                    ? "bg-primary hover:bg-primary/90"
-                    : "border-white/10 hover:bg-white/5"
+                  ? "bg-primary hover:bg-primary/90"
+                  : "border-white/10 hover:bg-white/5"
                   }`}
               >
                 {category}
@@ -337,6 +338,7 @@ export function ProjectsPage() {
           </Button>
         </section>
       </div>
+      <Footer />
     </div>
   );
 }

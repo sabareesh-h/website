@@ -6,6 +6,7 @@ import { DrawingModal } from './DrawingModal';
 import { motion } from 'framer-motion';
 import { Palette, ZoomIn } from 'lucide-react';
 import fm from 'front-matter';
+import { Footer } from './Footer';
 
 interface DrawingsPageProps {
   setIsNavVisible: (isVisible: boolean) => void;
@@ -127,6 +128,7 @@ export function DrawingsPage({ setIsNavVisible }: DrawingsPageProps) {
           onClose={handleCloseModal}
         />
       )}
+      <Footer />
     </div>
   );
 }

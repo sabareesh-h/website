@@ -5,12 +5,20 @@ import { ArrowLeft, Calendar, Clock, User, Share2, Bookmark } from 'lucide-react
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { ImageWithFallback } from './figma/ImageWithFallback';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useSpring } from 'framer-motion';
 import fm from 'front-matter';
 import { slugify } from '../lib/utils';
+import { Footer } from './Footer';
 
 
 export function BlogPostPage() {
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
   const location = useLocation();
   const navigate = useNavigate();
   const { slug } = useParams();
@@ -67,6 +75,12 @@ export function BlogPostPage() {
 
   return (
     <div className="min-h-screen pt-24 pb-20">
+      {/* Scroll Progress Bar */}
+      <motion.div
+        className="fixed top-0 left-0 right-0 h-1.5 bg-primary origin-left z-[60]"
+        style={{ scaleX }}
+      />
+
       {/* Hero Section */}
       <motion.div
         initial={{ opacity: 0 }}
@@ -179,6 +193,7 @@ export function BlogPostPage() {
           </div>
         </div>
       </article>
+      <Footer />
     </div>
   );
 }

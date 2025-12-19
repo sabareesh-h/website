@@ -2,20 +2,30 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { Button } from './ui/button';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
 import newLogo from '../assets/new_logo.png';
 
 export function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const location = useLocation();
 
+  const { scrollY } = useScroll();
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const previous = scrollY.getPrevious() || 0;
+    if (latest > previous && latest > 150) {
+      setHidden(true);
+    } else {
+      setHidden(false);
+    }
+    setScrolled(latest > 20);
+  });
+
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    // Keep setScrolled for initial load or other potential uses if needed
+    // But now it's mostly handled by useMotionValueEvent
   }, []);
 
   const handleContactClick = () => {
@@ -32,8 +42,14 @@ export function Navigation() {
   ];
 
   return (
-    <nav
-      className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-7xl rounded-full bg-black/60 backdrop-blur-2xl border border-white/20 shadow-lg transition-all duration-300"
+    <motion.nav
+      variants={{
+        visible: { y: 0 },
+        hidden: { y: "-150%" },
+      }}
+      animate={hidden ? "hidden" : "visible"}
+      transition={{ duration: 0.35, ease: "easeInOut" }}
+      className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-7xl rounded-full bg-black/60 backdrop-blur-2xl border border-white/20 shadow-lg"
     >
       <div className="px-6">
         <div className="flex items-center justify-between h-16">
@@ -54,11 +70,22 @@ export function Navigation() {
               <Link
                 key={item.name}
                 to={item.path}
-                className={`text-sm font-medium transition-all px-4 py-2 rounded-full ${location.pathname === item.path
-                  ? 'bg-white/10 text-white'
-                  : 'text-white/70 hover:text-white hover:bg-white/5'
+                className={`relative text-sm font-medium transition-colors px-4 py-2 rounded-full ${location.pathname === item.path
+                  ? 'text-white'
+                  : 'text-white/70 hover:text-white'
                   }`}
               >
+                {location.pathname === item.path && (
+                  <motion.div
+                    layoutId="nav-pill"
+                    className="absolute inset-0 bg-white/10 rounded-full -z-10"
+                    transition={{
+                      type: "spring",
+                      stiffness: 400,
+                      damping: 30
+                    }}
+                  />
+                )}
                 {item.name}
               </Link>
             ))}
@@ -119,6 +146,6 @@ export function Navigation() {
           </motion.div>
         )}
       </AnimatePresence>
-    </nav>
+    </motion.nav>
   );
 }

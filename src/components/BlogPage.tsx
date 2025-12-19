@@ -7,12 +7,19 @@ import { Badge } from './ui/badge';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { motion } from 'framer-motion';
 import fm from 'front-matter';
+import { Footer } from './Footer';
 
 export function BlogPage() {
   const [posts, setPosts] = useState<any[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
+  const [displayLimit, setDisplayLimit] = useState(30);
   const navigate = useNavigate();
+
+  // Reset limit when category or search changes
+  useEffect(() => {
+    setDisplayLimit(30);
+  }, [selectedCategory, searchQuery]);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -66,8 +73,9 @@ export function BlogPage() {
     return matchesCategory && matchesSearch;
   });
 
-  const featuredPost = filteredPosts[0];
-  const recentPosts = filteredPosts.slice(1);
+  const displayedPosts = filteredPosts.slice(0, displayLimit);
+  const heroPosts = displayedPosts.slice(0, 2);
+  const gridPosts = displayedPosts.slice(2);
 
   return (
     <div className="min-h-screen pt-24 pb-20">
@@ -131,137 +139,133 @@ export function BlogPage() {
         </section>
 
         {/* Hero Posts (Top 2) */}
-        <section className="mb-12">
-          <div className="grid md:grid-cols-2 gap-8">
-            {filteredPosts.slice(0, 2).map((post, index) => (
-              <motion.div
-                key={post.slug || index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                onClick={() => handlePostSelect(post)}
-                className="group cursor-pointer"
-              >
-                <div className="bg-card/50 backdrop-blur-sm border border-white/10 rounded-3xl overflow-hidden hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 h-full flex flex-col">
-                  <div className="aspect-[16/9] overflow-hidden relative">
-                    <ImageWithFallback
-                      src={post.attributes.image}
-                      alt={post.attributes.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                    />
-                    <div className="absolute top-4 left-4">
-                      <Badge variant="secondary" className="bg-black/50 backdrop-blur-md text-white border-white/20">
-                        {post.attributes.category}
-                      </Badge>
+        {heroPosts.length > 0 && (
+          <section className="mb-12">
+            <div className="grid md:grid-cols-2 gap-8">
+              {heroPosts.map((post, index) => (
+                <motion.div
+                  key={post.slug || index}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  onClick={() => handlePostSelect(post)}
+                  className="group cursor-pointer"
+                >
+                  <div className="bg-card/50 backdrop-blur-sm border border-white/10 rounded-3xl overflow-hidden hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 h-full flex flex-col">
+                    <div className="aspect-[16/9] overflow-hidden relative">
+                      <ImageWithFallback
+                        src={post.attributes.image}
+                        alt={post.attributes.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      />
+                      <div className="absolute top-4 left-4">
+                        <Badge variant="secondary" className="bg-black/50 backdrop-blur-md text-white border-white/20">
+                          {post.attributes.category}
+                        </Badge>
+                      </div>
+                    </div>
+                    <div className="p-8 flex flex-col flex-grow">
+                      <div className="flex items-center gap-3 text-xs text-muted-foreground mb-4">
+                        <span className="flex items-center gap-1">
+                          <Calendar className="w-3 h-3" />
+                          {post.attributes.date}
+                        </span>
+                        <span className="w-1 h-1 rounded-full bg-white/20" />
+                        <span className="flex items-center gap-1">
+                          <Clock className="w-3 h-3" />
+                          {post.attributes.readTime}
+                        </span>
+                      </div>
+                      <h2 className="text-2xl lg:text-3xl font-bold mb-4 group-hover:text-primary transition-colors leading-tight">
+                        {post.attributes.title}
+                      </h2>
+                      <p className="text-muted-foreground text-base mb-6 line-clamp-3 leading-relaxed flex-grow">
+                        {post.attributes.excerpt}
+                      </p>
+                      <div className="flex items-center justify-between mt-auto pt-4 border-t border-white/5">
+                        <span className="text-sm font-medium text-primary group-hover:translate-x-1 transition-transform">Read Article</span>
+                        <ArrowRight className="w-4 h-4 text-primary -translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all" />
+                      </div>
                     </div>
                   </div>
-                  <div className="p-8 flex flex-col flex-grow">
-                    <div className="flex items-center gap-3 text-xs text-muted-foreground mb-4">
-                      <span className="flex items-center gap-1">
-                        <Calendar className="w-3 h-3" />
-                        {post.attributes.date}
-                      </span>
-                      <span className="w-1 h-1 rounded-full bg-white/20" />
-                      <span className="flex items-center gap-1">
-                        <Clock className="w-3 h-3" />
-                        {post.attributes.readTime}
-                      </span>
-                    </div>
-                    <h2 className="text-2xl lg:text-3xl font-bold mb-4 group-hover:text-primary transition-colors leading-tight">
-                      {post.attributes.title}
-                    </h2>
-                    <p className="text-muted-foreground text-base mb-6 line-clamp-3 leading-relaxed flex-grow">
-                      {post.attributes.excerpt}
-                    </p>
-                    <div className="flex items-center justify-between mt-auto pt-4 border-t border-white/5">
-                      <span className="text-sm font-medium text-primary group-hover:translate-x-1 transition-transform">Read Article</span>
-                      <ArrowRight className="w-4 h-4 text-primary -translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all" />
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </section>
+                </motion.div>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* Remaining Posts Grid */}
-        <section>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredPosts.slice(2).map((post, index) => (
-              <motion.div
-                key={post.slug || index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2 + (index * 0.1) }}
-                onClick={() => handlePostSelect(post)}
-                className="group cursor-pointer"
-              >
-                <div className="bg-card/50 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 h-full flex flex-col">
-                  <div className="aspect-[16/10] overflow-hidden relative">
-                    <ImageWithFallback
-                      src={post.attributes.image}
-                      alt={post.attributes.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                    />
-                    <div className="absolute top-4 left-4">
-                      <Badge variant="secondary" className="bg-black/50 backdrop-blur-md text-white border-white/20">
-                        {post.attributes.category}
-                      </Badge>
+        {gridPosts.length > 0 && (
+          <section>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {gridPosts.map((post, index) => (
+                <motion.div
+                  key={post.slug || index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.2 + (index * 0.1) }}
+                  onClick={() => handlePostSelect(post)}
+                  className="group cursor-pointer"
+                >
+                  <div className="bg-card/50 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 h-full flex flex-col">
+                    <div className="aspect-[16/10] overflow-hidden relative">
+                      <ImageWithFallback
+                        src={post.attributes.image}
+                        alt={post.attributes.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      />
+                      <div className="absolute top-4 left-4">
+                        <Badge variant="secondary" className="bg-black/50 backdrop-blur-md text-white border-white/20">
+                          {post.attributes.category}
+                        </Badge>
+                      </div>
+                    </div>
+                    <div className="p-6 flex flex-col flex-grow">
+                      <div className="flex items-center gap-3 text-xs text-muted-foreground mb-4">
+                        <span className="flex items-center gap-1">
+                          <Calendar className="w-3 h-3" />
+                          {post.attributes.date}
+                        </span>
+                        <span className="w-1 h-1 rounded-full bg-white/20" />
+                        <span className="flex items-center gap-1">
+                          <Clock className="w-3 h-3" />
+                          {post.attributes.readTime}
+                        </span>
+                      </div>
+                      <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors line-clamp-2">
+                        {post.attributes.title}
+                      </h3>
+                      <p className="text-muted-foreground text-sm mb-6 line-clamp-3 leading-relaxed flex-grow">
+                        {post.attributes.excerpt}
+                      </p>
+                      <div className="flex items-center justify-between mt-auto pt-4 border-t border-white/5">
+                        <span className="text-sm font-medium text-primary group-hover:translate-x-1 transition-transform">Read more</span>
+                        <ArrowRight className="w-4 h-4 text-primary -translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all" />
+                      </div>
                     </div>
                   </div>
-                  <div className="p-6 flex flex-col flex-grow">
-                    <div className="flex items-center gap-3 text-xs text-muted-foreground mb-4">
-                      <span className="flex items-center gap-1">
-                        <Calendar className="w-3 h-3" />
-                        {post.attributes.date}
-                      </span>
-                      <span className="w-1 h-1 rounded-full bg-white/20" />
-                      <span className="flex items-center gap-1">
-                        <Clock className="w-3 h-3" />
-                        {post.attributes.readTime}
-                      </span>
-                    </div>
-                    <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors line-clamp-2">
-                      {post.attributes.title}
-                    </h3>
-                    <p className="text-muted-foreground text-sm mb-6 line-clamp-3 leading-relaxed flex-grow">
-                      {post.attributes.excerpt}
-                    </p>
-                    <div className="flex items-center justify-between mt-auto pt-4 border-t border-white/5">
-                      <span className="text-sm font-medium text-primary group-hover:translate-x-1 transition-transform">Read more</span>
-                      <ArrowRight className="w-4 h-4 text-primary -translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all" />
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </section>
+                </motion.div>
+              ))}
+            </div>
+          </section>
+        )}
 
-        {/* Newsletter Signup */}
-        <section className="mt-32 relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary/20 to-purple-900/20 border border-white/10 p-12 text-center">
-          <div className="absolute inset-0 bg-grid-white/5 [mask-image:linear-gradient(to_bottom,transparent,black,transparent)]" />
-          <div className="relative z-10 max-w-2xl mx-auto">
-            <div className="w-16 h-16 bg-primary/20 rounded-2xl flex items-center justify-center mx-auto mb-6 rotate-3">
-              <BookOpen className="w-8 h-8 text-primary" />
-            </div>
-            <h3 className="text-3xl font-bold mb-4">Join the Newsletter</h3>
-            <p className="text-muted-foreground mb-8 text-lg">
-              Subscribe to receive my latest thoughts, discoveries, and reflections.
-              No spam, just authentic sharing from one curious mind to another.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-              <input
-                type="email"
-                placeholder="Your email address"
-                className="flex-1 px-6 py-3 rounded-full border border-white/10 bg-black/20 focus:border-primary/50 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
-              />
-              <Button className="rounded-full px-8 bg-primary hover:bg-primary/90">Subscribe</Button>
-            </div>
+        {/* Load More Button */}
+        {displayLimit < filteredPosts.length && (
+          <div className="mt-16 flex justify-center">
+            <Button
+              variant="outline"
+              onClick={() => setDisplayLimit(prev => prev + 30)}
+              className="rounded-full px-8 py-6 border-white/10 hover:bg-white/5 hover:border-primary/50 transition-all text-muted-foreground hover:text-primary group"
+            >
+              Load More Articles
+              <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Button>
           </div>
-        </section>
+        )}
       </div>
+      <Footer />
     </div>
   );
 }
