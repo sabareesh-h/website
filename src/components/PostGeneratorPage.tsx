@@ -37,7 +37,7 @@ export function PostGeneratorPage() {
   const [readTime, setReadTime] = useState('');
   const [body, setBody] = useState('');
   const [fileName, setFileName] = useState('');
-  
+
   const [isPublishing, setIsPublishing] = useState(false);
 
   // Load saved settings from localStorage on mount
@@ -65,7 +65,7 @@ export function PostGeneratorPage() {
       toast.error("Incorrect password.");
     }
   };
-  
+
   const handleLogout = () => {
     setIsAuthenticated(false);
     localStorage.removeItem(AUTH_KEY);
@@ -107,7 +107,7 @@ ${body}
     setIsPublishing(true);
     const path = `src/posts/${fileName}.md`;
     const url = `https://api.github.com/repos/${githubOwner}/${githubRepo}/contents/${path}`;
-    
+
     const contentBase64 = btoa(unescape(encodeURIComponent(generatedContent)));
 
     try {
@@ -131,13 +131,15 @@ ${body}
         });
       } else {
         const errorData = await response.json();
+        console.error('GitHub API Error:', errorData);
         toast.error("Failed to publish post.", {
           description: errorData.message || "Check your GitHub settings and token permissions."
         });
       }
-    } catch (error) {
+    } catch (error: any) {
+      console.error('Unexpected Error:', error);
       toast.error("An unexpected error occurred.", {
-        description: error.message
+        description: error.message || JSON.stringify(error)
       });
     } finally {
       setIsPublishing(false);
@@ -160,11 +162,11 @@ ${body}
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
-              <Input 
-                id="password" 
-                type="password" 
-                value={password} 
-                onChange={(e) => setPassword(e.target.value)} 
+              <Input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleLogin()}
               />
             </div>
@@ -189,7 +191,7 @@ ${body}
         <CardHeader>
           <CardTitle className="flex items-center"><Github className="mr-2" /> GitHub Settings</CardTitle>
           <CardDescription>
-            Configure your GitHub repository details to enable publishing. 
+            Configure your GitHub repository details to enable publishing.
             You need to create a <a href="https://github.com/settings/tokens/new?scopes=repo" target="_blank" rel="noopener noreferrer" className="text-primary underline">Personal Access Token</a> with the "repo" scope.
           </CardDescription>
         </CardHeader>
@@ -206,7 +208,7 @@ ${body}
           </div>
           <div className="space-y-2">
             <Label htmlFor="githubToken">Personal Access Token (PAT)</Label>
-            <Input id="githubToken" type="password" value={githubToken} onChange={(e) => setGithubToken(e.target.value)} placeholder="ghp_..."/>
+            <Input id="githubToken" type="password" value={githubToken} onChange={(e) => setGithubToken(e.target.value)} placeholder="ghp_..." />
           </div>
         </CardContent>
         <CardFooter>
@@ -263,7 +265,7 @@ ${body}
           <div className="space-y-2">
             <Label htmlFor="fileName">File Name</Label>
             <div className="flex items-center">
-              <Input id="fileName" value={fileName} onChange={(e) => setFileName(e.target.value)} placeholder="my-awesome-post"/>
+              <Input id="fileName" value={fileName} onChange={(e) => setFileName(e.target.value)} placeholder="my-awesome-post" />
               <span className="ml-2 text-muted-foreground">.md</span>
             </div>
           </div>

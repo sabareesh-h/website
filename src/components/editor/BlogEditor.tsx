@@ -190,8 +190,9 @@ ${content}`;
                     </motion.div>
                 )}
 
+
                 {/* Visible Error Fallback */}
-                <div id="debug-error-log" className="hidden bg-red-900/20 border border-red-500/50 p-4 rounded-xl text-red-200 text-sm font-mono whitespace-pre-wrap">
+                <div id="debug-error-log" className="hidden mb-8 bg-red-900/30 border-2 border-red-500 p-6 rounded-2xl text-white text-sm font-mono whitespace-pre-wrap shadow-2xl overflow-auto max-h-[400px]">
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
