@@ -34,39 +34,43 @@ export function Experience() {
                     </Card>
 
                     {/* Music Playlist Column */}
-                    <Card className="bg-white/50 backdrop-blur-sm border-none shadow-sm overflow-hidden h-full">
-                        <CardContent className="p-6 flex flex-col items-center text-center h-full justify-between">
-                            <div className="w-full flex justify-start mb-4">
-                                <Badge variant="secondary" className="rounded-full px-3 py-1">My music playlist</Badge>
-                            </div>
-                            <div className="relative w-full aspect-square rounded-2xl overflow-hidden mb-4 shadow-lg">
-                                <img src={playlists[0].image} alt="Playlist" className="w-full h-full object-cover" />
-                                <div className="absolute inset-0 bg-black/20"></div>
-                            </div>
-                            <div>
-                                <h3 className="font-bold text-xl">{playlists[0].title}</h3>
-                                <p className="text-sm text-muted-foreground flex items-center justify-center gap-1">
-                                    {playlists[0].subtitle}
-                                </p>
-                            </div>
-                        </CardContent>
-                    </Card>
+                    <a href={playlists[0].url} target="_blank" rel="noopener noreferrer" className="block transition-transform hover:scale-[1.02] active:scale-[0.98]">
+                        <Card className="bg-white/50 backdrop-blur-sm border-none shadow-sm overflow-hidden h-full">
+                            <CardContent className="p-6 flex flex-col items-center text-center h-full justify-between">
+                                <div className="w-full flex justify-start mb-4">
+                                    <Badge variant="secondary" className="rounded-full px-3 py-1">My music playlist</Badge>
+                                </div>
+                                <div className="relative w-full aspect-square rounded-2xl overflow-hidden mb-4 shadow-lg group">
+                                    <img src={playlists[0].image} alt="Playlist" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
+                                </div>
+                                <div>
+                                    <h3 className="font-bold text-xl group-hover:text-primary transition-colors">{playlists[0].title}</h3>
+                                    <p className="text-sm text-muted-foreground flex items-center justify-center gap-1">
+                                        {playlists[0].subtitle}
+                                    </p>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </a>
 
                     {/* Reading Column */}
-                    <Card className="bg-white/50 backdrop-blur-sm border-none shadow-sm overflow-hidden h-full">
-                        <CardContent className="p-6 flex flex-col h-full">
-                            <div className="w-full flex justify-start mb-4">
-                                <Badge variant="secondary" className="rounded-full px-3 py-1">What I'm reading</Badge>
-                            </div>
-                            <div className="flex-1 flex flex-col">
-                                <h3 className="font-bold text-xl mb-1">{reading[0].title}</h3>
-                                <p className="text-sm text-muted-foreground mb-6">{reading[0].author}</p>
-                                <div className="relative flex-1 rounded-xl overflow-hidden shadow-md">
-                                    <img src={reading[0].image} alt="Book" className="w-full h-full object-cover" />
+                    <a href={reading[0].url} target="_blank" rel="noopener noreferrer" className="block transition-transform hover:scale-[1.02] active:scale-[0.98]">
+                        <Card className="bg-white/50 backdrop-blur-sm border-none shadow-sm overflow-hidden h-full">
+                            <CardContent className="p-6 flex flex-col h-full">
+                                <div className="w-full flex justify-start mb-4">
+                                    <Badge variant="secondary" className="rounded-full px-3 py-1">What I'm reading</Badge>
                                 </div>
-                            </div>
-                        </CardContent>
-                    </Card>
+                                <div className="flex-1 flex flex-col group">
+                                    <h3 className="font-bold text-xl mb-1 group-hover:text-primary transition-colors">{reading[0].title}</h3>
+                                    <p className="text-sm text-muted-foreground mb-6">{reading[0].author}</p>
+                                    <div className="relative flex-1 rounded-xl overflow-hidden shadow-md">
+                                        <img src={reading[0].image} alt="Book" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                                    </div>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </a>
                 </div>
             </div>
         </section>

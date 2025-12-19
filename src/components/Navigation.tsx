@@ -38,8 +38,7 @@ export function Navigation() {
     { name: 'Project', path: '/projects' },
     { name: 'Blog', path: '/blog' },
     { name: 'Drawings', path: '/drawings' },
-    { name: 'About', path: '/about' },
-    { name: 'Write', path: '/write' },
+    { name: 'About', path: '/about' }
   ];
 
   return (
