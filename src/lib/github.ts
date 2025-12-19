@@ -46,13 +46,31 @@ export const createPost = async (
       repo: settings.repo,
       path,
       message,
-      content: btoa(unescape(encodeURIComponent(content))), // Handle UTF-8 characters
+      content: btoa(
+        new TextEncoder()
+          .encode(content)
+          .reduce((data, byte) => data + String.fromCharCode(byte), '')
+      ),
       sha,
     });
 
     return response.data;
   } catch (error) {
     console.error("Error creating post:", error);
+    throw error;
+  }
+};
+
+export const testConnection = async (settings: GitHubSettings) => {
+  const octokit = new Octokit({ auth: settings.token });
+  try {
+    await octokit.request("GET /repos/{owner}/{repo}", {
+      owner: settings.owner,
+      repo: settings.repo,
+    });
+    return true;
+  } catch (error) {
+    console.error("Connection test failed:", error);
     throw error;
   }
 };

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Github, Save, FileText, Image as ImageIcon, Tag, Clock, Layout } from 'lucide-react';
 import { toast } from 'sonner';
-import { createPost, getStoredSettings, GitHubSettings } from '../../lib/github';
+import { createPost, getStoredSettings, GitHubSettings, testConnection } from '../../lib/github';
 
 export function BlogEditor() {
     const [settings, setSettings] = useState<GitHubSettings | null>(null);
@@ -17,6 +17,7 @@ export function BlogEditor() {
     const [content, setContent] = useState('');
     const [slug, setSlug] = useState('');
     const [isPublishing, setIsPublishing] = useState(false);
+    const [isTesting, setIsTesting] = useState(false);
 
     useEffect(() => {
         const stored = getStoredSettings();
@@ -36,9 +37,9 @@ export function BlogEditor() {
         e.preventDefault();
         const formData = new FormData(e.target as HTMLFormElement);
         const newSettings = {
-            token: formData.get('token') as string,
-            owner: formData.get('owner') as string,
-            repo: formData.get('repo') as string,
+            token: (formData.get('token') as string).trim(),
+            owner: (formData.get('owner') as string).trim(),
+            repo: (formData.get('repo') as string).trim(),
         };
 
         localStorage.setItem('github_token', newSettings.token);
@@ -48,6 +49,24 @@ export function BlogEditor() {
         setSettings(newSettings);
         setShowSettings(false);
         toast.success('Settings saved successfully');
+    };
+
+    const handleTestConnection = async () => {
+        if (!settings) {
+            toast.error('Please save settings first');
+            return;
+        }
+
+        setIsTesting(true);
+        try {
+            await testConnection(settings);
+            toast.success('Connection successful! Your settings are correct.');
+        } catch (error: any) {
+            console.error(error);
+            toast.error(`Connection failed: ${error.message || 'Check your token and repo names'}`);
+        } finally {
+            setIsTesting(false);
+        }
     };
 
     const handlePublish = async () => {
@@ -83,9 +102,23 @@ ${content}`;
             );
             toast.success('Post published successfully!');
             // Optional: Reset form
-        } catch (error) {
-            console.error(error);
-            toast.error('Failed to publish post. Check console for details.');
+        } catch (error: any) {
+            console.error('Full error object:', error);
+            let message = 'Failed to publish post.';
+
+            if (error.status === 401) {
+                message = 'Authentication failed: Invalid GitHub token.';
+            } else if (error.status === 404) {
+                message = 'Repository not found: Check your Owner and Repo settings.';
+            } else if (error.status === 403) {
+                message = 'Access denied: Check token permissions (needs "repo" scope).';
+            } else if (error.message) {
+                message = `GitHub Error: ${error.message}`;
+            } else {
+                message = `Raw Error: ${JSON.stringify(error) || error.toString()}`;
+            }
+
+            toast.error(message, { duration: 6000 });
         } finally {
             setIsPublishing(false);
         }
@@ -95,7 +128,7 @@ ${content}`;
         <div className="min-h-screen bg-background text-foreground p-8 pt-24">
             <div className="max-w-5xl mx-auto space-y-8">
                 <div className="flex justify-between items-center">
-                    <h1 className="text-4xl font-bold tracking-tight">New Story</h1>
+                    <h1 className="text-4xl font-bold tracking-tight">New Story <span className="text-xs font-mono opacity-30">v2.1</span></h1>
                     <div className="flex gap-4">
                         <button
                             onClick={() => setShowSettings(!showSettings)}
@@ -125,18 +158,28 @@ ${content}`;
                         <form onSubmit={handleSaveSettings} className="grid gap-4 md:grid-cols-3">
                             <div>
                                 <label className="block text-sm font-medium mb-1">Owner</label>
-                                <input name="owner" defaultValue={settings?.owner} className="w-full bg-background border rounded-md px-3 py-2" placeholder="username" required />
+                                <input name="owner" defaultValue={settings?.owner || 'sabareesh-h'} className="w-full bg-background border rounded-md px-3 py-2" placeholder="username" required />
                             </div>
                             <div>
                                 <label className="block text-sm font-medium mb-1">Repo</label>
-                                <input name="repo" defaultValue={settings?.repo} className="w-full bg-background border rounded-md px-3 py-2" placeholder="repository" required />
+                                <input name="repo" defaultValue={settings?.repo || 'website'} className="w-full bg-background border rounded-md px-3 py-2" placeholder="repository" required />
                             </div>
                             <div>
                                 <label className="block text-sm font-medium mb-1">Token (PAT)</label>
                                 <input name="token" type="password" defaultValue={settings?.token} className="w-full bg-background border rounded-md px-3 py-2" placeholder="ghp_..." required />
                             </div>
-                            <div className="md:col-span-3 flex justify-end">
-                                <button type="submit" className="bg-secondary text-secondary-foreground px-4 py-2 rounded-md text-sm font-medium">Save Configuration</button>
+                            <div className="md:col-span-3 flex justify-between gap-4 mt-2">
+                                <button
+                                    type="button"
+                                    onClick={handleTestConnection}
+                                    disabled={isTesting || !settings}
+                                    className="text-primary text-sm font-medium hover:underline disabled:opacity-30"
+                                >
+                                    {isTesting ? 'Testing...' : 'Test Connection'}
+                                </button>
+                                <button type="submit" className="bg-primary text-primary-foreground px-6 py-2 rounded-md text-sm font-medium hover:opacity-90 transition-opacity">
+                                    Save Configuration
+                                </button>
                             </div>
                         </form>
                     </motion.div>
