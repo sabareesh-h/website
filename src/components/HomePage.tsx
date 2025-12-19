@@ -4,6 +4,7 @@ import { Experience } from "./Experience";
 
 import { LatestPosts } from "./LatestPosts";
 import { ProjectPosts } from "./ProjectPosts";
+import { YouTubeLatest } from "./YouTubeLatest";
 import { Footer } from "./Footer";
 
 export function HomePage() {
@@ -14,6 +15,7 @@ export function HomePage() {
       <Experience />
       <ProjectPosts />
       <LatestPosts />
+      <YouTubeLatest />
       <Footer />
     </div>
   );
