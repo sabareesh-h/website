@@ -5,8 +5,11 @@ import "./index.css";
 import "@fontsource/playfair-display";
 import "@fontsource/inter";
 
+import { Analytics } from "@vercel/analytics/react";
+
 createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
     <App />
+    <Analytics />
   </BrowserRouter>
 );
