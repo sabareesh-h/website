@@ -4,7 +4,12 @@ import { Github, Save, FileText, Image as ImageIcon, Tag, Clock, Layout } from '
 import { toast } from 'sonner';
 import { createPost, getStoredSettings, GitHubSettings, testConnection } from '../../lib/github';
 
+const SECRET_KEY = 'sabareesh-admin';
+const AUTH_KEY = 'blog_editor_auth';
+
 export function BlogEditor() {
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [loginPassword, setLoginPassword] = useState('');
     const [settings, setSettings] = useState<GitHubSettings | null>(null);
     const [showSettings, setShowSettings] = useState(false);
 
@@ -20,6 +25,11 @@ export function BlogEditor() {
     const [isTesting, setIsTesting] = useState(false);
 
     useEffect(() => {
+        const storedAuth = localStorage.getItem(AUTH_KEY);
+        if (storedAuth === 'true') {
+            setIsAuthenticated(true);
+        }
+
         const stored = getStoredSettings();
         if (stored) {
             setSettings(stored);
@@ -32,6 +42,23 @@ export function BlogEditor() {
         // Auto-generate slug from title
         setSlug(title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, ''));
     }, [title]);
+
+    const handleLogin = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (loginPassword === SECRET_KEY) {
+            setIsAuthenticated(true);
+            localStorage.setItem(AUTH_KEY, 'true');
+            toast.success('Authenticated successfully');
+        } else {
+            toast.error('Incorrect password');
+        }
+    };
+
+    const handleLogout = () => {
+        setIsAuthenticated(false);
+        localStorage.removeItem(AUTH_KEY);
+        toast.info('Logged out successfully');
+    };
 
     const handleSaveSettings = (e: React.FormEvent) => {
         e.preventDefault();
@@ -129,6 +156,45 @@ ${content}`;
         }
     };
 
+    if (!isAuthenticated) {
+        return (
+            <div className="min-h-screen bg-background flex items-center justify-center p-4">
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="w-full max-w-md bg-card border rounded-2xl p-8 shadow-2xl space-y-6"
+                >
+                    <div className="text-center space-y-2">
+                        <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <Save className="w-8 h-8 text-primary" />
+                        </div>
+                        <h1 className="text-2xl font-bold">Admin Access</h1>
+                        <p className="text-muted-foreground text-sm">Please enter the password to open the editor</p>
+                    </div>
+
+                    <form onSubmit={handleLogin} className="space-y-4">
+                        <div className="space-y-2">
+                            <input
+                                type="password"
+                                value={loginPassword}
+                                onChange={(e) => setLoginPassword(e.target.value)}
+                                placeholder="••••••••"
+                                className="w-full bg-background border rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/20 outline-none transition-all text-center text-lg tracking-widest"
+                                autoFocus
+                            />
+                        </div>
+                        <button
+                            type="submit"
+                            className="w-full bg-primary text-primary-foreground py-3 rounded-xl font-bold hover:opacity-90 transition-opacity"
+                        >
+                            Enter Editor
+                        </button>
+                    </form>
+                </motion.div>
+            </div>
+        );
+    }
+
     return (
         <div className="min-h-screen bg-background text-foreground p-8 pt-24">
             <div className="max-w-5xl mx-auto space-y-8">
@@ -138,6 +204,12 @@ ${content}`;
                 <div className="flex justify-between items-center">
                     <h1 className="text-4xl font-bold tracking-tight">New Story <span className="text-xs font-mono opacity-30">v2.2</span></h1>
                     <div className="flex gap-4">
+                        <button
+                            onClick={handleLogout}
+                            className="text-sm font-medium text-muted-foreground hover:text-foreground px-4 py-2 rounded-full hover:bg-muted transition-colors"
+                        >
+                            Logout
+                        </button>
                         <button
                             onClick={() => setShowSettings(!showSettings)}
                             className="p-2 rounded-full hover:bg-muted transition-colors"
